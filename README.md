@@ -1,5 +1,32 @@
 # html_timetable_manager
 
+## Principal Workflow
+
+The app stores all imported setup data in browser `localStorage`.
+
+1. Use **Setup** to import the teacher list CSV and teacher grade-section subject mapping CSV.
+2. Edit imported teachers or mappings directly in the CRUD tables, then click **Save Changes**.
+3. Set timetable config: school days, periods per day, max periods per teacher, and AI prompt detail.
+4. Use **AI Prompt** to generate/copy/download a prompt that asks an AI to produce a no-overlap timetable CSV.
+5. Use **Upload Timetable** to import the AI-generated CSV.
+6. Use **View Timetable** for class-wise, teacher-wise, and subject-wise views, plus overlap checks.
+
+## Teacher List CSV
+
+```csv
+Teacher ID,Teacher Name,Subjects,Phone,Email
+T001,Indira,"Maths; English",,
+T002,Sai Priya,EVS,,
+```
+
+## Teacher Grade-Section Subject Mapping CSV
+
+```csv
+Teacher ID,Teacher Name,Grade-Section,Subject,Periods Per Week
+T001,Indira,Grade-I-A,Maths,5
+T002,Sai Priya,Grade-I-A,EVS,4
+```
+
 ## CSV Upload Format
 
 Use a CSV with columns like:
@@ -26,6 +53,21 @@ Supported Excel formats in the app:
 - `STATE TIME TABLE (19.07.2025)`: Teacher-wise matrix with day blocks and period numbers.
 
 Before uploading an Excel file, choose the matching format from the Excel Format dropdown in the Upload section.
+
+## Subject Mapping CSV (Teacher -> Subject)
+
+You can upload a separate mapping CSV to auto-fill missing subjects.
+
+Required columns:
+
+```csv
+Teacher Name,Teacher ID,Subject
+```
+
+Notes:
+- At least one of `Teacher Name` or `Teacher ID` must be present.
+- `Subject` is required.
+- During timetable import, if a period has teacher info but no subject, the subject is auto-filled from this mapping.
 
 ## Timetable Cleanup and Standardization Requirements
 

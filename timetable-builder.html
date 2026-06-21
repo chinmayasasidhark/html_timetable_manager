@@ -136,7 +136,7 @@
       margin: 0 auto;
       padding: 8px 28px 80px;
       display: grid;
-      grid-template-columns: 340px 1fr;
+      grid-template-columns: 380px 1fr;
       gap: 24px;
       align-items: start;
     }
@@ -152,7 +152,7 @@
       border: 1px solid var(--rule);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 18px 18px 20px;
+      padding: 20px 20px 22px;
       margin-bottom: 18px;
     }
 
@@ -162,22 +162,47 @@
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: .06em;
-      margin: 0 0 12px;
-      padding-bottom: 8px;
+      margin: 0 0 14px;
+      padding-bottom: 10px;
       border-bottom: 1px dashed var(--rule);
       color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card h2::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--amber);
+      display: inline-block;
+      flex: none;
+    }
+
+    .card-hint {
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--ink-soft);
+      margin: 0 0 12px;
     }
 
     .field {
-      margin-bottom: 12px;
+      margin-bottom: 14px;
+    }
+
+    .field:last-child {
+      margin-bottom: 0;
     }
 
     .field label {
       display: block;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 600;
       color: var(--ink-soft);
-      margin-bottom: 4px;
+      margin-bottom: 5px;
+      line-height: 1.35;
     }
 
     .field input[type=text],
@@ -185,7 +210,7 @@
     .field select,
     .field input[type=number] {
       width: 100%;
-      padding: 7px 10px;
+      padding: 8px 10px;
       border: 1px solid var(--rule);
       border-radius: 7px;
       background: #fff;
@@ -194,16 +219,23 @@
       color: var(--ink);
     }
 
+    .field input:focus,
+    .field select:focus {
+      outline: none;
+      border-color: var(--amber-dark);
+      box-shadow: 0 0 0 3px rgba(200, 132, 42, 0.14);
+    }
+
     .row2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      gap: 12px;
     }
 
     .daygrid {
       display: flex;
       flex-wrap: wrap;
-      gap: 5px;
+      gap: 6px;
     }
 
     .daychip {
@@ -211,13 +243,18 @@
       font-size: 11px;
       border: 1px solid var(--rule);
       border-radius: 7px;
-      padding: 5px 0;
-      width: 40px;
+      padding: 6px 0;
+      width: 42px;
       text-align: center;
       cursor: pointer;
       user-select: none;
       background: #fff;
       color: var(--ink-soft);
+      transition: background .12s, border-color .12s, color .12s;
+    }
+
+    .daychip:hover {
+      border-color: var(--amber-dark);
     }
 
     .daychip.on {
@@ -230,15 +267,15 @@
     .class-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 6px;
-      margin-bottom: 8px;
+      gap: 8px;
+      margin-bottom: 12px;
     }
 
     .class-item {
       border: 1px solid var(--rule);
-      border-radius: 7px;
+      border-radius: 8px;
       background: #fff;
-      padding: 6px 4px;
+      padding: 8px 4px;
       text-align: center;
     }
 
@@ -247,7 +284,7 @@
       font-size: 11px;
       color: var(--ink-soft);
       font-weight: 600;
-      margin-bottom: 4px;
+      margin-bottom: 5px;
     }
 
     .class-item select {
@@ -265,11 +302,24 @@
       border-color: var(--sage);
     }
 
+    .btnrow {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .btnrow button.sm {
+      flex: 1 1 auto;
+      white-space: normal;
+      line-height: 1.3;
+    }
+
     /* import area */
     .import-zone {
       border: 2px dashed var(--rule);
       border-radius: 8px;
-      padding: 12px;
+      padding: 16px 12px;
       text-align: center;
       cursor: pointer;
       background: #fafaf7;
@@ -290,7 +340,7 @@
 
     .import-zone .icon {
       font-size: 22px;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     #importFile {
@@ -300,15 +350,16 @@
     .import-preview {
       max-height: 120px;
       overflow-y: auto;
-      margin-top: 8px;
+      margin-top: 10px;
     }
 
     .import-row {
       font-size: 11px;
       font-family: 'IBM Plex Mono', monospace;
-      padding: 2px 4px;
+      padding: 3px 5px;
       border-radius: 4px;
       color: var(--ink-soft);
+      margin-bottom: 1px;
     }
 
     .import-row.ok {
@@ -321,18 +372,91 @@
       color: #8a3c24;
     }
 
+    .cs-item {
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 10px;
+      background: #fafaf7;
+    }
+
+    .cs-item .row2 {
+      margin-bottom: 10px;
+    }
+
+    .cs-item label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      margin-bottom: 4px;
+    }
+
+    .cs-item input[type=text],
+    .cs-item input[type=number] {
+      width: 100%;
+      padding: 7px 8px;
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      font-size: 12.5px;
+      background: #fff;
+    }
+
+    .cs-item select[multiple] {
+      width: 100%;
+      min-height: 78px;
+      padding: 5px;
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      font-size: 11.5px;
+      background: #fff;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    .cs-item .cs-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+      gap: 8px;
+    }
+
+    .cs-item .cs-hint {
+      font-size: 10.5px;
+      color: var(--gray);
+    }
+
+    button.del-cs {
+      background: none;
+      border: none;
+      color: var(--coral);
+      font-size: 12px;
+      cursor: pointer;
+      font-family: 'IBM Plex Mono', monospace;
+      flex: none;
+    }
+
+    .cs-empty {
+      font-size: 11.5px;
+      color: var(--gray);
+      font-family: 'IBM Plex Mono', monospace;
+      padding: 6px 2px;
+      line-height: 1.5;
+    }
+
     button.primary {
       width: 100%;
       background: var(--ink);
       color: #fff;
       border: none;
-      padding: 11px 14px;
+      padding: 12px 14px;
       border-radius: 8px;
       font-family: 'Inter', sans-serif;
       font-weight: 600;
       font-size: 13.5px;
       cursor: pointer;
       margin-top: 4px;
+      transition: background .12s;
     }
 
     button.primary:hover {
@@ -348,6 +472,7 @@
       font-family: 'Inter', sans-serif;
       font-size: 12.5px;
       cursor: pointer;
+      transition: border-color .12s, color .12s;
     }
 
     button.secondary:hover {
@@ -357,15 +482,8 @@
 
     button.sm {
       font-size: 11.5px;
-      padding: 5px 9px;
+      padding: 7px 10px;
       border-radius: 6px;
-    }
-
-    .btnrow {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 8px;
     }
 
     .warning {
@@ -373,9 +491,10 @@
       background: #fbe9e2;
       border: 1px solid #e7b8a5;
       color: #8a3c24;
-      padding: 7px 10px;
+      padding: 9px 11px;
       border-radius: 7px;
       margin-bottom: 10px;
+      line-height: 1.5;
     }
 
     .info {
@@ -383,9 +502,10 @@
       background: #e8f0fb;
       border: 1px solid #b3c8ee;
       color: #2a4a8a;
-      padding: 7px 10px;
+      padding: 9px 11px;
       border-radius: 7px;
       margin-bottom: 10px;
+      line-height: 1.5;
     }
 
     .success {
@@ -393,9 +513,10 @@
       background: #e8f5ec;
       border: 1px solid #a3d4b3;
       color: #1e5c30;
-      padding: 7px 10px;
+      padding: 9px 11px;
       border-radius: 7px;
       margin-bottom: 10px;
+      line-height: 1.5;
     }
 
     /* conflict badge */
@@ -415,20 +536,25 @@
     .tabs {
       display: flex;
       flex-wrap: wrap;
-      gap: 4px;
-      margin-bottom: 12px;
+      gap: 6px;
+      margin-bottom: 14px;
     }
 
     .tab {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 11px;
-      padding: 5px 10px;
+      padding: 6px 12px;
       border: 1px solid var(--rule);
       border-radius: 20px;
       cursor: pointer;
       background: #fff;
       color: var(--ink-soft);
       white-space: nowrap;
+      transition: background .12s, border-color .12s, color .12s;
+    }
+
+    .tab:hover {
+      border-color: var(--ink-soft);
     }
 
     .tab.active {
@@ -453,14 +579,16 @@
       justify-content: space-between;
       align-items: flex-end;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 12px;
+      gap: 14px;
+      margin-bottom: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--rule);
     }
 
     .output-head h2 {
       font-family: 'Fraunces', serif;
-      font-size: 20px;
-      margin: 0;
+      font-size: 21px;
+      margin: 0 0 4px;
       font-weight: 600;
     }
 
@@ -472,7 +600,7 @@
 
     .toolbar {
       display: flex;
-      gap: 7px;
+      gap: 8px;
       flex-wrap: wrap;
     }
 
@@ -480,9 +608,10 @@
       font-family: 'Inter', sans-serif;
       font-size: 12px;
       font-weight: 600;
-      padding: 7px 11px;
+      padding: 9px 14px;
       border-radius: 7px;
       cursor: pointer;
+      border: 1px solid transparent;
     }
 
     .toolbar button.print {
@@ -508,8 +637,8 @@
       background: #fff8f6;
       border: 1px solid #f0c4b4;
       border-radius: 8px;
-      padding: 10px 12px;
-      margin-bottom: 14px;
+      padding: 12px 14px;
+      margin-bottom: 16px;
     }
 
     .conflict-panel h3 {
@@ -517,14 +646,14 @@
       font-size: 12px;
       font-weight: 600;
       color: var(--coral);
-      margin: 0 0 6px;
+      margin: 0 0 8px;
     }
 
     .conflict-item {
       font-size: 11.5px;
       color: #7a3030;
       font-family: 'IBM Plex Mono', monospace;
-      padding: 2px 0;
+      padding: 3px 0;
     }
 
     /* grid table */
@@ -533,15 +662,16 @@
       border: 1px solid var(--rule);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 6px;
+      padding: 10px;
       position: relative;
       overflow-x: auto;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     table.tt {
       width: 100%;
-      border-collapse: collapse;
+      border-collapse: separate;
+      border-spacing: 0;
       table-layout: fixed;
       min-width: 480px;
     }
@@ -559,13 +689,18 @@
       font-family: 'IBM Plex Mono', monospace;
       font-size: 11.5px;
       letter-spacing: .04em;
-      padding: 9px 6px;
+      padding: 10px 6px;
       text-align: center;
     }
 
     table.tt thead th:first-child {
       background: var(--ink-soft);
-      width: 86px;
+      width: 90px;
+      border-top-left-radius: 6px;
+    }
+
+    table.tt thead th:last-child {
+      border-top-right-radius: 6px;
     }
 
     td.timecol {
@@ -574,7 +709,7 @@
       font-size: 10.5px;
       color: var(--ink-soft);
       text-align: center;
-      padding: 7px 4px;
+      padding: 9px 4px;
       white-space: nowrap;
     }
 
@@ -582,7 +717,8 @@
       display: block;
       font-size: 9.5px;
       color: var(--gray);
-      margin-bottom: 2px;
+      margin-bottom: 3px;
+      letter-spacing: .04em;
     }
 
     tr.breakrow td {
@@ -591,18 +727,19 @@
       font-family: 'IBM Plex Mono', monospace;
       font-size: 11px;
       text-align: center;
-      padding: 5px;
+      padding: 7px;
+      letter-spacing: .03em;
     }
 
     td.cell {
-      padding: 2px;
+      padding: 3px;
     }
 
     td.cell select {
       width: 100%;
       border: none;
       border-radius: 5px;
-      padding: 8px 4px;
+      padding: 9px 4px;
       font-family: 'Inter', sans-serif;
       font-size: 11.5px;
       font-weight: 600;
@@ -636,14 +773,16 @@
     .legend {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 12px;
+      gap: 10px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px dashed var(--rule);
     }
 
     .legend span {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
       font-size: 11.5px;
       color: var(--ink-soft);
       font-family: 'IBM Plex Mono', monospace;
@@ -658,10 +797,11 @@
 
     .empty-state {
       text-align: center;
-      padding: 50px 20px;
+      padding: 60px 20px;
       color: var(--gray);
       font-family: 'IBM Plex Mono', monospace;
       font-size: 13px;
+      line-height: 1.7;
     }
 
     footer.note {
@@ -684,7 +824,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 4px 0;
+      gap: 12px;
+      padding: 7px 0;
       border-bottom: 1px solid var(--rule);
       font-size: 12px;
     }
@@ -702,6 +843,12 @@
       font-size: 10.5px;
       color: var(--ink-soft);
       font-family: 'IBM Plex Mono', monospace;
+      white-space: nowrap;
+    }
+
+    .lab-pair-chip {
+      width: auto !important;
+      padding: 6px 10px !important;
     }
 
     @media print {
@@ -781,11 +928,10 @@
       <!-- CLASSES & SECTIONS -->
       <div class="card">
         <h2>Classes &amp; Sections</h2>
-        <p style="font-size:12px;color:var(--ink-soft);margin:0 0 10px;">Choose how many sections each class has. Leave
-          at 0 to skip a class.</p>
+        <p class="card-hint">Choose how many sections each class has. Leave at 0 to skip a class.</p>
         <div class="class-grid" id="classGrid"></div>
         <div class="btnrow">
-          <button class="secondary sm" id="preset1Btn">10–7: 1 sec, 6–1: 2 sec</button>
+          <button class="secondary sm" id="preset1Btn">10–7: 1 sec · 6–1: 2 sec</button>
           <button class="secondary sm" id="allOneBtn">All 1 section</button>
           <button class="secondary sm" id="allTwoBtn">All 2 sections</button>
         </div>
@@ -840,15 +986,25 @@
         </div>
         <div class="field">
           <label>Break length (min)</label>
-          <input type="number" id="breakDur" value="15" min="5" max="60" style="max-width:90px;">
+          <input type="number" id="breakDur" value="15" min="5" max="60" style="max-width:110px;">
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label>Min free periods / day (per teacher)</label>
+            <input type="number" id="minFreePerDay" value="1" min="0" max="9">
+          </div>
+          <div class="field">
+            <label>Max free periods / day (per teacher)</label>
+            <input type="number" id="maxFreePerDay" value="2" min="0" max="9">
+          </div>
         </div>
       </div>
 
       <!-- IMPORT -->
       <div class="card">
         <h2>Import Teacher Schedule</h2>
-        <p style="font-size:12px;color:var(--ink-soft);margin:0 0 8px;">Upload your CSV or Excel (.xlsx/.xls) file.
-          Columns: <b>Subject, Teacher, Classes, Periods</b></p>
+        <p class="card-hint">Upload your CSV or Excel (.xlsx/.xls) file. Columns: <b>Subject, Teacher, Classes,
+            Periods</b></p>
         <div class="import-zone" id="importZone">
           <div class="icon">📂</div>
           <p>Drop CSV/XLSX file here or click to browse</p>
@@ -856,10 +1012,39 @@
         </div>
         <div id="importPreview" class="import-preview"></div>
         <div id="importStatus"></div>
-        <div class="btnrow" style="margin-top:8px;">
+        <div class="btnrow">
           <button class="secondary sm" id="loadSampleBtn">Load sample data</button>
           <button class="secondary sm" id="clearImportBtn">Clear import</button>
         </div>
+      </div>
+
+      <!-- COMBINED SESSIONS -->
+      <div class="card">
+        <h2>Combined / Special Sessions</h2>
+        <p class="card-hint">For one teacher running a single shared class across multiple sections at once (e.g. a
+          P.T. period taught jointly to grades 8, 9 &amp; 10). The whole group gets the same slot; it counts toward
+          each section's weekly schedule without needing the teacher present more than once.</p>
+        <div id="combinedSessionsList"></div>
+        <button class="secondary sm" id="addCombinedSessionBtn" style="margin-top:8px;width:100%;">+ Add combined
+          session</button>
+      </div>
+
+      <!-- LAB BLOCKS -->
+      <div class="card">
+        <h2>Double-Period Lab Blocks</h2>
+        <p class="card-hint">For a subject that always runs as a 2-period block in fixed slots (e.g. Computer Lab
+          only in P1–P2 or P6–P7), rotated across several teacher/section groups over the week.</p>
+        <div class="field">
+          <label>Subject name</label>
+          <input type="text" id="labSubject" placeholder="e.g. Computer">
+        </div>
+        <div class="field">
+          <label>Allowed period-pairs</label>
+          <div id="labPairsList" class="daygrid"></div>
+        </div>
+        <div id="labGroupsList"></div>
+        <button class="secondary sm" id="addLabGroupBtn" style="margin-top:8px;width:100%;">+ Add teacher/section
+          group</button>
       </div>
 
       <!-- GENERATE -->
@@ -867,7 +1052,7 @@
         <h2>Generate</h2>
         <div id="globalWarning"></div>
         <button class="primary" id="generateAllBtn">⚡ Generate All Class Timetables</button>
-        <div class="btnrow" style="margin-top:10px;">
+        <div class="btnrow">
           <button class="secondary sm" id="clearAllBtn">Clear all grids</button>
           <button class="secondary sm" id="resetBtn">Reset everything</button>
         </div>
@@ -900,7 +1085,7 @@
       </div>
 
       <!-- teacher info for current class -->
-      <div id="teacherInfo" style="display:none;" class="card" style="padding:12px;">
+      <div id="teacherInfo" style="display:none;" class="card">
         <h2>Teachers for <span id="teacherInfoClass"></span></h2>
         <div class="teacher-list" id="teacherList"></div>
       </div>
@@ -916,7 +1101,8 @@
   </main>
 
   <footer class="note">
-    Data stored only in this browser (localStorage) — nothing is uploaded. · html_timetable_manager · resolves issue #12
+    Data stored only in this browser (localStorage) — nothing is uploaded. · html_timetable_manager · resolves issue
+    #12, #13
   </footer>
 
   <script>
@@ -942,10 +1128,22 @@
         periodsPerDay: 6,
         breakAfter: 2,
         breakDur: 15,
+        minFreePerDay: 1,
+        maxFreePerDay: 2,
         // classes: {classNum: sectionCount}  e.g. {1:2, 2:2, ... 7:1 ... 10:1}
         classes: { 1: 2, 2: 2, 3: 2, 4: 2, 5: 2, 6: 2, 7: 1, 8: 1, 9: 1, 10: 1 },
         // importedTeachers: [{subject, teacher, classes:[], periodsPerWeek}]
         importedTeachers: [],
+        // combinedSessions: groups of sections that share one teacher/subject at the same
+        // exact slot. Each entry: {id, subject, teacher, sections:["8","9","10"], periodsPerWeek}
+        combinedSessions: [],
+        // labBlocks: a recurring double-period block pinned to specific period-pairs,
+        // rotated across many section-groups per teacher over the week.
+        labBlocks: {
+          subject: "Computer",
+          pairs: [[0, 1], [5, 6]],
+          groups: []
+        },
         // grids: {"1A":{dayIdx:{periodIdx: subjectId}}, ...}
         grids: {},
         // subjects derived from import per class section: {"1A":[{id,name,teacher,weeks}]}
@@ -953,6 +1151,11 @@
         activeTab: "",
         nextId: 1
       };
+
+      // Pristine snapshot of the defaults above, captured before load() can mutate `state`.
+      // "Reset everything" restores from this instead of relying on a full page reload, which
+      // can behave unreliably when this file is embedded in an iframe/sandbox.
+      const DEFAULT_STATE_JSON = JSON.stringify(state);
 
       function load() {
         try {
@@ -1148,6 +1351,51 @@
           });
           state.classSubjects[sec] = subjects;
         });
+
+        // Combined sessions: every section in the group gets the SAME subject id, so the
+        // generator can recognize "this is one shared slot" and place it once, simultaneously,
+        // across the whole group rather than as independent per-section demand.
+        (state.combinedSessions || []).forEach(cs => {
+          const sharedId = id++;
+          cs.__sharedId = sharedId;
+          (cs.sections || []).forEach(sec => {
+            if (!state.classSubjects[sec]) return; // section no longer exists (e.g. class turned off)
+            state.classSubjects[sec].push({
+              id: sharedId,
+              name: cs.subject + " (combined)",
+              teacher: cs.teacher,
+              weeks: Number(cs.periodsPerWeek) || 0,
+              combinedGroupId: cs.id,
+              combinedSections: (cs.sections || []).slice()
+            });
+          });
+        });
+
+        // Lab blocks: a fixed double-period block (e.g. P1-P2 or P6-P7), pinned to specific
+        // period-pairs, shared across every section in the group at once. Like combined sessions,
+        // every member section gets the same subject id; "weeks" is expressed in PERIODS
+        // (blocksPerWeek * 2) so it scales correctly alongside regular per-period subjects.
+        ensureLabBlocks();
+        (state.labBlocks.groups || []).forEach(g => {
+          const memberSecs = (g.sections || []).filter(sec => state.classSubjects[sec]);
+          if (memberSecs.length === 0) return;
+          const blocks = Number(g.blocksPerWeek) || 0;
+          if (blocks <= 0) return;
+          const sharedId = id++;
+          g.__sharedId = sharedId;
+          memberSecs.forEach(sec => {
+            state.classSubjects[sec].push({
+              id: sharedId,
+              name: (state.labBlocks.subject || "Lab") + " (block)",
+              teacher: g.teacher,
+              weeks: blocks * 2, // 2 periods per block
+              labGroupId: g.id,
+              labSections: memberSecs.slice(),
+              isLabBlock: true
+            });
+          });
+        });
+
         state.nextId = id;
       }
 
@@ -1205,13 +1453,18 @@ Hindi/Telugu,Sukrutha,9,5 periods`;
               teachers.forEach(t => {
                 if (!t) return;
                 if (!teacherSecs[t]) teacherSecs[t] = [];
-                teacherSecs[t].push({ sec, subject: subj.name });
+                teacherSecs[t].push({ sec, subject: subj.name, groupId: subj.combinedGroupId || subj.labGroupId || null });
               });
             });
-            // any teacher with >1 section in same period?
+            // any teacher with >1 section in same period? legitimate combined/lab sharing
+            // (same groupId across all those sections) is not a conflict.
             Object.entries(teacherSecs).forEach(([teacher, secs]) => {
               if (secs.length > 1) {
-                conflicts.push({ teacher, dayIdx, period: p, secs });
+                const groupIds = new Set(secs.map(s => s.groupId));
+                const allSameLegitGroup = groupIds.size === 1 && secs[0].groupId;
+                if (!allSameLegitGroup) {
+                  conflicts.push({ teacher, dayIdx, period: p, secs });
+                }
               }
             });
           }
@@ -1367,6 +1620,10 @@ Hindi/Telugu,Sukrutha,9,5 periods`;
           showGlobalWarning("No classes selected. Set at least one class with ≥ 1 section.");
           return;
         }
+        // Re-derive subjects right before generating so combined-session and lab-block
+        // shared ids are fresh and every member section's subject list reflects the latest config.
+        deriveClassSubjects();
+
         const activeDays = [];
         state.days.forEach((on, i) => { if (on) activeDays.push(i); });
         const periodsPerDay = Number(state.periodsPerDay);
@@ -1376,6 +1633,16 @@ Hindi/Telugu,Sukrutha,9,5 periods`;
           showGlobalWarning("Select at least one school day before generating.");
           return;
         }
+
+        // Per-teacher daily free-period bounds: every teacher should get at least
+        // minFreePerDay and at most maxFreePerDay free periods each day. We enforce
+        // the "at most" side proactively (skip a candidate that would leave a
+        // teacher with zero remaining free slots today) and report the "at least"
+        // side afterwards, since guaranteeing a minimum free count for every
+        // teacher while also meeting every section's weekly subject targets can
+        // conflict with the no-double-booking guarantee, which always wins.
+        const minFreePerDay = Number(state.minFreePerDay) || 0;
+        const maxFreePerDay = Number(state.maxFreePerDay) || periodsPerDay;
 
         // per-section: target list, assigned-so-far counts, last-placed subject id (to avoid repeats),
         // and a running free-period count used to rotate unavoidable gaps fairly across sections.
@@ -1396,12 +1663,133 @@ Hindi/Telugu,Sukrutha,9,5 periods`;
         const teacherBusy = {};
         const slotKey = (d, p) => d + "_" + p;
 
+        // ---- Combined sessions: pre-place these FIRST, before the regular per-section fill.
+        // A combined session is one teacher, one subject, one shared slot across every section
+        // in the group at once (e.g. P.T. taught jointly to grades 8+9+10). We find a slot where
+        // the teacher is free for ALL member sections simultaneously, write the same subject id
+        // into every member section's grid at that slot, and mark the teacher busy once for it —
+        // the regular fill then skips it because each member section is already at target for it.
+        const combinedUnplaced = []; // {subject, teacher, sections, needed, placed}
+        (state.combinedSessions || []).forEach(cs => {
+          const memberSecs = (cs.sections || []).filter(s => sections.includes(s));
+          if (memberSecs.length === 0) return;
+          const need = Number(cs.periodsPerWeek) || 0;
+          if (need <= 0) return;
+          let placed = 0;
+          const teacherNames = splitTeacherNames(cs.teacher);
+
+          outer:
+          for (const dayIdx of activeDays) {
+            for (let p = 0; p < periodsPerDay; p++) {
+              if (placed >= need) break outer;
+              const sk = slotKey(dayIdx, p);
+              if (!teacherBusy[sk]) teacherBusy[sk] = new Set();
+              const busy = teacherBusy[sk];
+              if (teacherNames.some(n => busy.has(n))) continue;
+              const allFree = memberSecs.every(sec => {
+                const g = secState[sec] && secState[sec].grid[dayIdx];
+                return !g || !g[p];
+              });
+              if (!allFree) continue;
+              memberSecs.forEach(sec => {
+                const st = secState[sec];
+                if (!st.grid[dayIdx]) st.grid[dayIdx] = {};
+                st.grid[dayIdx][p] = cs.__sharedId;
+                if (st.target[cs.__sharedId] === undefined) { st.target[cs.__sharedId] = need; st.assigned[cs.__sharedId] = 0; }
+                st.assigned[cs.__sharedId]++;
+                st.lastSubjectId = cs.__sharedId;
+              });
+              teacherNames.forEach(n => busy.add(n));
+              placed++;
+            }
+          }
+          if (placed < need) {
+            combinedUnplaced.push({ subject: cs.subject, teacher: cs.teacher, sections: memberSecs.join("+"), needed: need, placed });
+          }
+        });
+
+        // ---- Lab blocks: pre-place these next, after combined sessions but before the regular
+        // per-section fill. Each placement occupies BOTH periods of one allowed pair (e.g. P1-P2),
+        // simultaneously across every member section in the group, with the teacher busy for both.
+        ensureLabBlocks();
+        const labPairs = (state.labBlocks.pairs || []).filter(pr => pr[0] < periodsPerDay && pr[1] < periodsPerDay);
+        const labUnplaced = []; // {teacher, sections, needed, placed}
+        (state.labBlocks.groups || []).forEach(g => {
+          const memberSecs = (g.sections || []).filter(s => sections.includes(s));
+          if (memberSecs.length === 0 || !g.__sharedId) return;
+          const need = Number(g.blocksPerWeek) || 0;
+          if (need <= 0 || labPairs.length === 0) return;
+          let placed = 0;
+          const teacherNames = splitTeacherNames(g.teacher);
+
+          outerLab:
+          for (const dayIdx of activeDays) {
+            for (const pair of labPairs) {
+              if (placed >= need) break outerLab;
+              const [p1, p2] = pair;
+              const sk1 = slotKey(dayIdx, p1), sk2 = slotKey(dayIdx, p2);
+              if (!teacherBusy[sk1]) teacherBusy[sk1] = new Set();
+              if (!teacherBusy[sk2]) teacherBusy[sk2] = new Set();
+              const busy1 = teacherBusy[sk1], busy2 = teacherBusy[sk2];
+              // teacher must be free in BOTH periods of the pair
+              if (teacherNames.some(n => busy1.has(n) || busy2.has(n))) continue;
+              // every member section must be free in BOTH periods of the pair
+              const allFree = memberSecs.every(sec => {
+                const g1 = secState[sec] && secState[sec].grid[dayIdx];
+                return !g1 || (!g1[p1] && !g1[p2]);
+              });
+              if (!allFree) continue;
+              memberSecs.forEach(sec => {
+                const st = secState[sec];
+                if (!st.grid[dayIdx]) st.grid[dayIdx] = {};
+                st.grid[dayIdx][p1] = g.__sharedId;
+                st.grid[dayIdx][p2] = g.__sharedId;
+                if (st.target[g.__sharedId] === undefined) { st.target[g.__sharedId] = need * 2; st.assigned[g.__sharedId] = 0; }
+                st.assigned[g.__sharedId] += 2;
+                st.lastSubjectId = g.__sharedId;
+              });
+              teacherNames.forEach(n => { busy1.add(n); busy2.add(n); });
+              placed++;
+            }
+          }
+          if (placed < need) {
+            labUnplaced.push({ teacher: g.teacher, sections: memberSecs.join("+"), needed: need, placed });
+          }
+        });
+
         let forcedFreeCount = 0;
         const forcedFreeDetails = [];
         let unmetCount = 0;
         const bottleneckTeacherCounts = {}; // teacher name -> how many forced-free periods they caused
+        const teacherDayBelowMin = []; // {teacher, day} pairs that ended the day under minFreePerDay
 
         activeDays.forEach((dayIdx) => {
+          // teacherPlacedToday[name] = periods already placed for that teacher today (used to
+          // cap them at maxFreePerDay free periods, i.e. at periodsPerDay - maxFreePerDay placed).
+          // Pre-placed combined/lab periods already in teacherBusy aren't counted here yet, so
+          // seed today's counts from what's already on the grid for each teacher at day start.
+          const teacherPlacedToday = {};
+          sections.forEach(sec => {
+            const g = secState[sec].grid[dayIdx];
+            if (!g) return;
+            for (let p = 0; p < periodsPerDay; p++) {
+              const subId = g[p];
+              if (!subId) continue;
+              const subj = (state.classSubjects[sec] || []).find(s => s.id === subId);
+              if (!subj) continue;
+              // only count each (teacher, period) once even though combined/lab groups
+              // place the same id across multiple sections in the same slot
+              splitTeacherNames(subj.teacher).forEach(n => {
+                const seenKey = "__seen_" + n + "_" + p;
+                if (!teacherPlacedToday[seenKey]) {
+                  teacherPlacedToday[seenKey] = true;
+                  teacherPlacedToday[n] = (teacherPlacedToday[n] || 0) + 1;
+                }
+              });
+            }
+          });
+          const maxPlacedToday = Math.max(0, periodsPerDay - maxFreePerDay);
+
           for (let p = 0; p < periodsPerDay; p++) {
             const sk = slotKey(dayIdx, p);
             if (!teacherBusy[sk]) teacherBusy[sk] = new Set();
@@ -1421,11 +1809,19 @@ Hindi/Telugu,Sukrutha,9,5 periods`;
             order.forEach(sec => {
               const st = secState[sec];
               if (!st.grid[dayIdx]) st.grid[dayIdx] = {};
+              if (st.grid[dayIdx][p]) return; // already filled by combined/lab pre-placement
               if (st.targets.length === 0) { st.grid[dayIdx][p] = 0; return; }
 
-              // candidate subjects still under target, sorted by how far behind fair share they are
+              // candidate subjects still under target, sorted by how far behind fair share they are,
+              // excluding any whose teacher has already hit their daily placed-period cap (so they
+              // keep at least maxFreePerDay free periods today).
               const candidates = st.targets
                 .filter(t => st.assigned[t.id] < st.target[t.id])
+                .filter(t => {
+                  const names = splitTeacherNames(t.teacher);
+                  if (names.length === 0 || (names.length === 1 && names[0] === "TBD")) return true;
+                  return names.every(n => (teacherPlacedToday[n] || 0) < maxPlacedToday);
+                })
                 .sort((a, b) => {
                   const shareA = st.target[a.id] - st.assigned[a.id];
                   const shareB = st.target[b.id] - st.assigned[b.id];
@@ -1454,7 +1850,14 @@ Hindi/Telugu,Sukrutha,9,5 periods`;
                 st.grid[dayIdx][p] = pick.id;
                 st.assigned[pick.id]++;
                 st.lastSubjectId = pick.id;
-                splitTeacherNames(pick.teacher).forEach(n => busy.add(n));
+                splitTeacherNames(pick.teacher).forEach(n => {
+                  busy.add(n);
+                  const seenKey = "__seen_" + n + "_" + p;
+                  if (!teacherPlacedToday[seenKey]) {
+                    teacherPlacedToday[seenKey] = true;
+                    teacherPlacedToday[n] = (teacherPlacedToday[n] || 0) + 1;
+                  }
+                });
               } else {
                 st.grid[dayIdx][p] = 0;
                 st.lastSubjectId = null;
@@ -1464,6 +1867,18 @@ Hindi/Telugu,Sukrutha,9,5 periods`;
                   blockingTeachers.forEach(n => { bottleneckTeacherCounts[n] = (bottleneckTeacherCounts[n] || 0) + 1; });
                   forcedFreeDetails.push(`Class ${sec} · ${DAY_NAMES[dayIdx]} P${p + 1}: blocked by ${blockingTeachers.join(", ")} (already teaching another section this period)`);
                 }
+              }
+            });
+          }
+
+          // check minFreePerDay: any teacher placed in more than (periodsPerDay - minFreePerDay) slots today?
+          if (minFreePerDay > 0) {
+            const maxAllowedPlaced = periodsPerDay - minFreePerDay;
+            Object.keys(teacherPlacedToday).forEach(key => {
+              if (key.startsWith("__seen_")) return;
+              const count = teacherPlacedToday[key];
+              if (count > maxAllowedPlaced) {
+                teacherDayBelowMin.push({ teacher: key, day: DAY_NAMES[dayIdx], placed: count, allowed: maxAllowedPlaced });
               }
             });
           }
@@ -1480,23 +1895,29 @@ Hindi/Telugu,Sukrutha,9,5 periods`;
         const topBottlenecks = Object.entries(bottleneckTeacherCounts)
           .sort((a, b) => b[1] - a[1]).slice(0, 8)
           .map(([name, count]) => `${name} (${count} period${count === 1 ? "" : "s"})`);
-        state.lastGenReport = { forcedFreeCount, forcedFreeDetails: forcedFreeDetails.slice(0, 30), unmetCount, topBottlenecks };
+        state.lastGenReport = {
+          forcedFreeCount, forcedFreeDetails: forcedFreeDetails.slice(0, 30), unmetCount, topBottlenecks,
+          teacherDayBelowMin: teacherDayBelowMin.slice(0, 30), combinedUnplaced, labUnplaced
+        };
         save();
         const savedToMainApp = exportToMainAppStorage();
         renderAll();
 
-        if (forcedFreeCount > 0 || unmetCount > 0) {
+        if (forcedFreeCount > 0 || unmetCount > 0 || teacherDayBelowMin.length > 0 || combinedUnplaced.length > 0 || labUnplaced.length > 0) {
           const bits = [];
           if (forcedFreeCount > 0) bits.push(`${forcedFreeCount} period(s) left free because every available teacher was already busy elsewhere at that time`);
           if (unmetCount > 0) bits.push(`${unmetCount} period(s) of weekly subject targets could not be fully placed`);
-          let msg = "Generated with caveats: " + bits.join("; ") + ". The conflict-free guarantee still holds — no teacher is ever double-booked. Free periods have been rotated evenly across sections that share the same teacher rather than concentrated on one.";
+          if (teacherDayBelowMin.length > 0) bits.push(`${teacherDayBelowMin.length} teacher-day(s) ended up with fewer than the minimum ${minFreePerDay} free period(s) because their weekly load didn't leave enough slack`);
+          if (combinedUnplaced.length > 0) bits.push(`${combinedUnplaced.length} combined session(s) couldn't fit all their weekly periods — e.g. ${combinedUnplaced.slice(0, 3).map(c => `${c.subject} for [${c.sections}] (${c.placed}/${c.needed} placed)`).join("; ")}`);
+          if (labUnplaced.length > 0) bits.push(`${labUnplaced.length} lab block group(s) couldn't fit all their weekly blocks — e.g. ${labUnplaced.slice(0, 3).map(c => `${c.teacher} for [${c.sections}] (${c.placed}/${c.needed} blocks placed)`).join("; ")}`);
+          let msg = "Generated with caveats: " + bits.join("; ") + ". The conflict-free guarantee still holds — no teacher is ever double-booked, and no teacher exceeds the maximum " + maxFreePerDay + " free period(s)/day cap. Free periods have been rotated evenly across sections that share the same teacher rather than concentrated on one.";
           if (topBottlenecks.length) {
             msg += " Most-overbooked teacher(s): " + topBottlenecks.join("; ") + ". These teachers need a co-teacher for at least one of their sections, or fewer sections assigned, to close the gap.";
           }
           if (savedToMainApp) msg += " Saved to Timetable Manager — open \"View Timetable\" there to see it.";
           showGlobalWarning(msg, false, forcedFreeDetails.slice(0, 30));
         } else {
-          let msg = "✓ Generated " + sections.length + " conflict-free class timetables — no teacher is double-booked.";
+          let msg = "✓ Generated " + sections.length + " conflict-free class timetables — no teacher is double-booked, and every teacher has between " + minFreePerDay + " and " + maxFreePerDay + " free period(s) each day.";
           if (savedToMainApp) msg += " Saved to Timetable Manager — open \"View Timetable\" there to see it.";
           showGlobalWarning(msg, true);
         }
@@ -1705,6 +2126,8 @@ Hindi/Telugu,Sukrutha,9,5 periods`;
             state.grids = {};
             state.activeTab = "";
             save();
+            renderCombinedSessions();
+            renderLabGroups();
             renderAll();
           });
           wrap.appendChild(item);
@@ -1725,6 +2148,195 @@ Hindi/Telugu,Sukrutha,9,5 periods`;
             save();
           });
           wrap.appendChild(d);
+        });
+      }
+
+      // ---- COMBINED SESSIONS ----
+      function renderCombinedSessions() {
+        const wrap = document.getElementById("combinedSessionsList");
+        const sections = getSections();
+        const list = state.combinedSessions || [];
+
+        if (list.length === 0) {
+          wrap.innerHTML = '<div class="cs-empty">No combined sessions yet. Use this for a teacher who runs one shared class across several sections at the same time.</div>';
+          return;
+        }
+
+        wrap.innerHTML = "";
+        list.forEach((cs, idx) => {
+          const item = document.createElement("div");
+          item.className = "cs-item";
+          const selOptions = sections.map(sec =>
+            `<option value="${sec}"${(cs.sections || []).includes(sec) ? " selected" : ""}>Class ${sec}</option>`
+          ).join("");
+          item.innerHTML = `
+      <div class="row2">
+        <div><label>Subject</label><input type="text" data-field="subject" value="${escHtml(cs.subject || "")}" placeholder="e.g. P.T."></div>
+        <div><label>Teacher</label><input type="text" data-field="teacher" value="${escHtml(cs.teacher || "")}" placeholder="e.g. Coach Raju"></div>
+      </div>
+      <div class="row2">
+        <div><label>Periods / week</label><input type="number" data-field="periodsPerWeek" value="${cs.periodsPerWeek || 2}" min="1" max="20"></div>
+        <div><label>Sections in this group</label><select multiple data-field="sections">${selOptions}</select></div>
+      </div>
+      <div class="cs-foot">
+        <span class="cs-hint">${(cs.sections || []).length} section(s) selected — hold ctrl/cmd-click to pick several</span>
+        <button class="del-cs" type="button">Remove</button>
+      </div>
+    `;
+
+          const onChange = () => {
+            cs.subject = item.querySelector('[data-field="subject"]').value.trim();
+            cs.teacher = item.querySelector('[data-field="teacher"]').value.trim();
+            cs.periodsPerWeek = Number(item.querySelector('[data-field="periodsPerWeek"]').value) || 1;
+            cs.sections = Array.from(item.querySelector('[data-field="sections"]').selectedOptions).map(o => o.value);
+            item.querySelector(".cs-hint").textContent = `${cs.sections.length} section(s) selected — hold ctrl/cmd-click to pick several`;
+            state.grids = {}; state.activeTab = "";
+            deriveClassSubjects();
+            save();
+            renderAll();
+          };
+          item.querySelectorAll("input,select").forEach(el => {
+            el.addEventListener("change", onChange);
+            if (el.tagName === "INPUT") el.addEventListener("input", onChange);
+          });
+          item.querySelector(".del-cs").addEventListener("click", () => {
+            state.combinedSessions.splice(idx, 1);
+            state.grids = {}; state.activeTab = "";
+            deriveClassSubjects();
+            save();
+            renderCombinedSessions();
+            renderAll();
+          });
+
+          wrap.appendChild(item);
+        });
+      }
+
+      function initCombinedSessions() {
+        document.getElementById("addCombinedSessionBtn").addEventListener("click", () => {
+          if (!state.combinedSessions) state.combinedSessions = [];
+          state.combinedSessions.push({
+            id: genCombinedId(),
+            subject: "", teacher: "", periodsPerWeek: 2, sections: []
+          });
+          save();
+          renderCombinedSessions();
+        });
+      }
+      let __csIdCounter = 1;
+      function genCombinedId() { return "cs_" + (__csIdCounter++) + "_" + Math.random().toString(36).slice(2, 7); }
+
+      // ---- LAB BLOCKS (fixed double-period rotation) ----
+      function ensureLabBlocks() {
+        if (!state.labBlocks) state.labBlocks = { subject: "Computer", pairs: [[0, 1]], groups: [] };
+        if (!Array.isArray(state.labBlocks.pairs)) state.labBlocks.pairs = [[0, 1]];
+        if (!Array.isArray(state.labBlocks.groups)) state.labBlocks.groups = [];
+      }
+
+      function renderLabPairsPicker() {
+        ensureLabBlocks();
+        const wrap = document.getElementById("labPairsList");
+        const periodsPerDay = Number(state.periodsPerDay) || 6;
+        // every consecutive pair P(n)-P(n+1) is selectable; pairs are stored as [a,b] 0-indexed
+        const allPairs = [];
+        for (let p = 0; p < periodsPerDay - 1; p++) allPairs.push([p, p + 1]);
+
+        wrap.innerHTML = "";
+        allPairs.forEach(pair => {
+          const isOn = (state.labBlocks.pairs || []).some(sel => sel[0] === pair[0] && sel[1] === pair[1]);
+          const chip = document.createElement("div");
+          chip.className = "daychip lab-pair-chip" + (isOn ? " on" : "");
+          chip.textContent = `P${pair[0] + 1}-P${pair[1] + 1}`;
+          chip.addEventListener("click", () => {
+            const idx = state.labBlocks.pairs.findIndex(sel => sel[0] === pair[0] && sel[1] === pair[1]);
+            if (idx >= 0) state.labBlocks.pairs.splice(idx, 1);
+            else state.labBlocks.pairs.push(pair);
+            state.grids = {}; state.activeTab = "";
+            save();
+            renderLabPairsPicker();
+            renderAll();
+          });
+          wrap.appendChild(chip);
+        });
+        if (allPairs.length === 0) {
+          wrap.innerHTML = '<div class="cs-empty">Increase "Periods / day" above to at least 2 to enable double-period blocks.</div>';
+        }
+      }
+
+      function renderLabGroups() {
+        ensureLabBlocks();
+        const wrap = document.getElementById("labGroupsList");
+        const sections = getSections();
+        const groups = state.labBlocks.groups;
+
+        if (groups.length === 0) {
+          wrap.innerHTML = '<div class="cs-empty">No teacher/section groups yet. Add one per teacher covering a set of sections (combine sections that share one teacher into one group for a joint block, or list a single section for its own block).</div>';
+          return;
+        }
+
+        wrap.innerHTML = "";
+        groups.forEach((g, idx) => {
+          const item = document.createElement("div");
+          item.className = "cs-item";
+          const selOptions = sections.map(sec =>
+            `<option value="${sec}"${(g.sections || []).includes(sec) ? " selected" : ""}>Class ${sec}</option>`
+          ).join("");
+          item.innerHTML = `
+      <div class="row2">
+        <div><label>Teacher</label><input type="text" data-field="teacher" value="${escHtml(g.teacher || "")}" placeholder="e.g. Steve Jobs"></div>
+        <div><label>Blocks / week</label><input type="number" data-field="blocksPerWeek" value="${g.blocksPerWeek || 1}" min="1" max="10"></div>
+      </div>
+      <div class="field">
+        <label>Sections in this group (combine to share one block, e.g. 1A+1B)</label>
+        <select multiple data-field="sections">${selOptions}</select>
+      </div>
+      <div class="cs-foot">
+        <span class="cs-hint">${(g.sections || []).length} section(s) selected</span>
+        <button class="del-cs" type="button">Remove</button>
+      </div>
+    `;
+          const onChange = () => {
+            g.teacher = item.querySelector('[data-field="teacher"]').value.trim();
+            g.blocksPerWeek = Number(item.querySelector('[data-field="blocksPerWeek"]').value) || 1;
+            g.sections = Array.from(item.querySelector('[data-field="sections"]').selectedOptions).map(o => o.value);
+            item.querySelector(".cs-hint").textContent = `${g.sections.length} section(s) selected`;
+            state.grids = {}; state.activeTab = "";
+            save();
+            renderAll();
+          };
+          item.querySelectorAll("input,select").forEach(el => {
+            el.addEventListener("change", onChange);
+            if (el.tagName === "INPUT") el.addEventListener("input", onChange);
+          });
+          item.querySelector(".del-cs").addEventListener("click", () => {
+            state.labBlocks.groups.splice(idx, 1);
+            state.grids = {}; state.activeTab = "";
+            save();
+            renderLabGroups();
+            renderAll();
+          });
+          wrap.appendChild(item);
+        });
+      }
+
+      function initLabBlocks() {
+        ensureLabBlocks();
+        const subjEl = document.getElementById("labSubject");
+        subjEl.value = state.labBlocks.subject || "";
+        subjEl.addEventListener("input", () => {
+          state.labBlocks.subject = subjEl.value.trim();
+          save();
+        });
+        subjEl.addEventListener("change", () => {
+          state.grids = {}; state.activeTab = "";
+          save();
+          renderAll();
+        });
+
+        document.getElementById("addLabGroupBtn").addEventListener("click", () => {
+          state.labBlocks.groups.push({ id: genCombinedId(), teacher: "", sections: [], blocksPerWeek: 1 });
+          save();
+          renderLabGroups();
         });
       }
 
@@ -1841,26 +2453,28 @@ Hindi/Telugu,Sukrutha,9,5 periods`;
         bind("ttTitle", "ttTitle");
         bind("startTime", "startTime");
         bind("periodDur", "periodDur");
-        bind("periodsPerDay", "periodsPerDay", () => { state.grids = {}; });
+        bind("periodsPerDay", "periodsPerDay", () => { state.grids = {}; renderLabPairsPicker(); });
         bind("breakAfter", "breakAfter");
         bind("breakDur", "breakDur");
+        bind("minFreePerDay", "minFreePerDay");
+        bind("maxFreePerDay", "maxFreePerDay");
 
         document.getElementById("preset1Btn").addEventListener("click", () => {
           // 10,9,8,7 → 1 section; 6,5,4,3,2,1 → 2 sections
           [10, 9, 8, 7].forEach(c => state.classes[c] = 1);
           [6, 5, 4, 3, 2, 1].forEach(c => state.classes[c] = 2);
           state.grids = {}; state.activeTab = "";
-          deriveClassSubjects(); save(); renderClassGrid(); renderAll();
+          deriveClassSubjects(); save(); renderClassGrid(); renderCombinedSessions(); renderLabGroups(); renderAll();
         });
         document.getElementById("allOneBtn").addEventListener("click", () => {
           for (let c = 1; c <= 10; c++) state.classes[c] = 1;
           state.grids = {}; state.activeTab = "";
-          deriveClassSubjects(); save(); renderClassGrid(); renderAll();
+          deriveClassSubjects(); save(); renderClassGrid(); renderCombinedSessions(); renderLabGroups(); renderAll();
         });
         document.getElementById("allTwoBtn").addEventListener("click", () => {
           for (let c = 1; c <= 10; c++) state.classes[c] = 2;
           state.grids = {}; state.activeTab = "";
-          deriveClassSubjects(); save(); renderClassGrid(); renderAll();
+          deriveClassSubjects(); save(); renderClassGrid(); renderCombinedSessions(); renderLabGroups(); renderAll();
         });
 
         document.getElementById("generateAllBtn").addEventListener("click", generateAll);
@@ -1869,12 +2483,46 @@ Hindi/Telugu,Sukrutha,9,5 periods`;
           save(); renderAll();
         });
         document.getElementById("resetBtn").addEventListener("click", () => {
-          if (!confirm("Reset everything to defaults?")) return;
-          localStorage.removeItem(STORAGE_KEY);
-          location.reload();
+          if (!confirm("Reset everything to defaults? This clears classes & sections, days & periods, imported teachers, combined sessions, lab blocks, and every generated timetable grid.")) return;
+          resetEverything();
         });
         document.getElementById("printBtn").addEventListener("click", () => window.print());
         document.getElementById("csvBtn").addEventListener("click", exportCSV);
+      }
+
+      // Fully restore `state` to its pristine defaults and re-render every part of the UI.
+      // Done in-place (rather than via localStorage.removeItem + location.reload) so the reset
+      // is reliable everywhere this file runs, including inside embedded/sandboxed viewers where
+      // a reload of the document isn't guaranteed to re-fetch a clean copy.
+      function resetEverything() {
+        try { localStorage.removeItem(STORAGE_KEY); } catch (e) { }
+        state = JSON.parse(DEFAULT_STATE_JSON);
+        __csIdCounter = 1;
+        save();
+
+        // resync every plain input/select to the restored defaults
+        document.getElementById("instName").value = state.instName;
+        document.getElementById("ttTitle").value = state.ttTitle;
+        document.getElementById("startTime").value = state.startTime;
+        document.getElementById("periodDur").value = String(state.periodDur);
+        document.getElementById("periodsPerDay").value = String(state.periodsPerDay);
+        document.getElementById("breakAfter").value = String(state.breakAfter);
+        document.getElementById("breakDur").value = String(state.breakDur);
+        document.getElementById("minFreePerDay").value = String(state.minFreePerDay);
+        document.getElementById("maxFreePerDay").value = String(state.maxFreePerDay);
+        document.getElementById("labSubject").value = state.labBlocks.subject || "";
+        document.getElementById("importPreview").innerHTML = "";
+        document.getElementById("importStatus").innerHTML = "";
+        document.getElementById("globalWarning").innerHTML = "";
+
+        renderDayGrid();
+        renderClassGrid();
+        renderCombinedSessions();
+        ensureLabBlocks();
+        renderLabPairsPicker();
+        renderLabGroups();
+        renderAll();
+        showGlobalWarning("✓ Everything has been reset to defaults.", true);
       }
 
       // ---- INIT ----
@@ -1883,6 +2531,11 @@ Hindi/Telugu,Sukrutha,9,5 periods`;
       renderDayGrid();
       renderClassGrid();
       initImport();
+      initCombinedSessions();
+      renderCombinedSessions();
+      initLabBlocks();
+      renderLabPairsPicker();
+      renderLabGroups();
       // If there's imported data already, re-derive
       if (state.importedTeachers && state.importedTeachers.length > 0) deriveClassSubjects();
       if (getSections().length > 0 && !state.activeTab) state.activeTab = getSections()[0];

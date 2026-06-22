@@ -328,7 +328,9 @@
                 const headers = rows[0].map(header => toCleanString(header).toLowerCase());
                 const idIndex = findHeaderIndex(headers, ['teacher id', 'teacherid', 'id']);
                 const nameIndex = findHeaderIndex(headers, ['teacher name', 'teachername', 'name']);
-                const subjectsIndex = findHeaderIndex(headers, ['subjects', 'subject']);
+                const subjectsIndex = findHeaderIndex(headers, ['class teacher subject', 'subjects', 'subject', 'subject taught']);
+                const gradeIndex = findHeaderIndex(headers, ['class teacher grade', 'class grade', 'grade']);
+                const sectionIndex = findHeaderIndex(headers, ['class teacher section', 'section']);
                 const phoneIndex = findHeaderIndex(headers, ['phone', 'mobile']);
                 const emailIndex = findHeaderIndex(headers, ['email']);
 
@@ -341,7 +343,9 @@
                     .map((cells, index) => ({
                         id: toCleanString(cells[idIndex]) || `T${String((state.teachers || []).length + index + 1).padStart(4, '0')}`,
                         name: toCleanString(cells[nameIndex]),
-                        subjects: subjectsIndex >= 0 ? toCleanString(cells[subjectsIndex]) : '',
+                        classTeacherSubject: subjectsIndex >= 0 ? toCleanString(cells[subjectsIndex]) : '',
+                        classTeacherGrade: gradeIndex >= 0 ? toCleanString(cells[gradeIndex]) : '',
+                        classTeacherSection: sectionIndex >= 0 ? toCleanString(cells[sectionIndex]) : '',
                         phone: phoneIndex >= 0 ? toCleanString(cells[phoneIndex]) : '',
                         email: emailIndex >= 0 ? toCleanString(cells[emailIndex]) : ''
                     }))
@@ -448,14 +452,16 @@
             const rows = state.teachers || [];
             table.innerHTML = `
                 <thead>
-                    <tr><th>Teacher ID</th><th>Teacher Name</th><th>Subjects</th><th>Phone</th><th>Email</th><th>Action</th></tr>
+                    <tr><th>Teacher ID</th><th>Teacher Name</th><th>Class Teacher Subject</th><th>Class Teacher Grade</th><th>Class Teacher Section</th><th>Phone</th><th>Email</th><th>Action</th></tr>
                 </thead>
                 <tbody>
                     ${rows.map((teacher, index) => `
                         <tr data-index="${index}">
                             <td><input value="${escapeHtml(teacher.id)}" data-field="id"></td>
                             <td><input value="${escapeHtml(teacher.name)}" data-field="name"></td>
-                            <td><input value="${escapeHtml(teacher.subjects)}" data-field="subjects"></td>
+                            <td><input value="${escapeHtml(teacher.classTeacherSubject || teacher.subjects || '')}" data-field="classTeacherSubject"></td>
+                            <td><input value="${escapeHtml(teacher.classTeacherGrade || '')}" data-field="classTeacherGrade"></td>
+                            <td><input value="${escapeHtml(teacher.classTeacherSection || '')}" data-field="classTeacherSection"></td>
                             <td><input value="${escapeHtml(teacher.phone)}" data-field="phone"></td>
                             <td><input value="${escapeHtml(teacher.email)}" data-field="email"></td>
                             <td><button class="btn btn-danger btn-sm" onclick="deleteTeacherRow(${index})"><i class="fas fa-trash"></i></button></td>
@@ -500,7 +506,7 @@
 
         function saveMasterDataFromTables() {
             syncConfigFromInputs();
-            state.teachers = readTableRows('teacherMasterTable', ['id', 'name', 'subjects', 'phone', 'email'])
+            state.teachers = readTableRows('teacherMasterTable', ['id', 'name', 'classTeacherSubject', 'classTeacherGrade', 'classTeacherSection', 'phone', 'email'])
                 .filter(teacher => teacher.name);
             state.teacherMappings = readTableRows('teacherMappingTable', ['teacherId', 'teacherName', 'gradeSection', 'subject', 'periodsPerWeek'])
                 .map((mapping, index) => ({
@@ -526,7 +532,7 @@
 
         function addTeacherRow() {
             saveMasterDataFromTablesWithoutAlert();
-            state.teachers.push({ id: '', name: '', subjects: '', phone: '', email: '' });
+            state.teachers.push({ id: '', name: '', classTeacherSubject: '', classTeacherGrade: '', classTeacherSection: '', phone: '', email: '' });
             renderTeacherMasterTable();
             updateSetupSummary();
         }
@@ -540,7 +546,7 @@
 
         function saveMasterDataFromTablesWithoutAlert() {
             syncConfigFromInputs();
-            state.teachers = readTableRows('teacherMasterTable', ['id', 'name', 'subjects', 'phone', 'email']);
+            state.teachers = readTableRows('teacherMasterTable', ['id', 'name', 'classTeacherSubject', 'classTeacherGrade', 'classTeacherSection', 'phone', 'email']);
             state.teacherMappings = readTableRows('teacherMappingTable', ['teacherId', 'teacherName', 'gradeSection', 'subject', 'periodsPerWeek']);
         }
 
@@ -570,7 +576,7 @@
             const nextMap = { ...(state.teacherSubjectMap || {}) };
 
             (state.teachers || []).forEach(teacher => {
-                const subject = toCleanString(teacher.subjects).split(/[;/,]/).map(item => toCleanString(item)).filter(Boolean)[0] || '';
+                const subject = toCleanString(teacher.classTeacherSubject || teacher.subjects || '').split(/[;/,]/).map(item => toCleanString(item)).filter(Boolean)[0] || '';
                 if (!subject) return;
                 const byId = buildTeacherSubjectMapKey('', teacher.id);
                 const byName = buildTeacherSubjectMapKey(teacher.name, '');
@@ -630,9 +636,9 @@ Return CSV now.`;
         }
 
         function toTeacherCSV(teachers) {
-            let csv = 'Teacher ID,Teacher Name,Subjects,Phone,Email\n';
+            let csv = 'Teacher ID,Teacher Name,Class Teacher Subject,Class Teacher Grade,Class Teacher Section,Phone,Email\n';
             teachers.forEach(teacher => {
-                csv += [teacher.id, teacher.name, teacher.subjects, teacher.phone, teacher.email].map(escapeCSVField).join(',') + '\n';
+                csv += [teacher.id, teacher.name, teacher.classTeacherSubject || teacher.subjects || '', teacher.classTeacherGrade || '', teacher.classTeacherSection || '', teacher.phone, teacher.email].map(escapeCSVField).join(',') + '\n';
             });
             return csv.trim();
         }
@@ -669,7 +675,7 @@ Return CSV now.`;
         }
 
         function downloadMasterDataTemplates() {
-            const teachersCsv = 'Teacher ID,Teacher Name,Subjects,Phone,Email\nT001,Indira,"Maths; English",,\nT002,Sai Priya,EVS,,\n';
+            const teachersCsv = 'Teacher ID,Teacher Name,Class Teacher Subject,Class Teacher Grade,Class Teacher Section,Phone,Email\nT001,Indira,Maths,I,A,9876543210,indira@school.com\nT002,Sai Priya,EVS,II,A,9876543211,sai@school.com\n';
             const mappingsCsv = 'Teacher ID,Teacher Name,Grade-Section,Subject,Periods Per Week\nT001,Indira,Grade-I-A,Maths,5\nT002,Sai Priya,Grade-I-A,EVS,4\n';
             const blob = new Blob([`Teacher List Template\n${teachersCsv}\n\nMapping Template\n${mappingsCsv}`], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);

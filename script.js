@@ -690,7 +690,18 @@
                 const item = {};
                 fields.forEach(field => {
                     const input = row.querySelector(`[data-field="${field}"]`);
-                    item[field] = input ? toCleanString(input.value) : '';
+                    if (!input) {
+                        item[field] = '';
+                        return;
+                    }
+                    
+                    // Handle multi-select dropdowns
+                    if (input.multiple && input.tagName === 'SELECT') {
+                        const selectedOptions = Array.from(input.selectedOptions).map(opt => opt.value);
+                        item[field] = selectedOptions.join(',');
+                    } else {
+                        item[field] = toCleanString(input.value);
+                    }
                 });
                 return item;
             });
@@ -1646,13 +1657,23 @@ Return CSV now.`;
             if (!cleaned) {
                 return { valid: false, error: 'Class-Section is empty' };
             }
-            const normalized = normalizeClassSectionLabel(cleaned);
-            // Format validation: Grade-Class-Section (e.g., Grade-I-A or Grade-10-A)
-            const match = normalized.match(/^Grade-([IVX\d]+)-([A-Z])$/i);
-            if (!match) {
-                return { valid: false, error: `Invalid Class-Section format: "${value}". Expected format like "Grade-I-A"` };
+            
+            // Handle comma-separated values from multi-select
+            const values = cleaned.split(',').map(v => v.trim()).filter(Boolean);
+            
+            // Validate each class-section individually
+            for (const singleValue of values) {
+                const normalized = normalizeClassSectionLabel(singleValue);
+                // Format validation: Grade-Class-Section (e.g., Grade-I-A or Grade-10-A)
+                const match = normalized.match(/^Grade-([IVX\d]+)-([A-Z])$/i);
+                if (!match) {
+                    return { valid: false, error: `Invalid Class-Section format: "${singleValue}". Expected format like "Grade-I-A"` };
+                }
             }
-            return { valid: true, normalized };
+            
+            // Return normalized comma-separated values
+            const normalizedValues = values.map(v => normalizeClassSectionLabel(v));
+            return { valid: true, normalized: normalizedValues.join(',') };
         }
 
         function validateSubjectSelection(subject) {

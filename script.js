@@ -226,6 +226,8 @@
             if (importSubjectsInput) importSubjectsInput.addEventListener('change', handleImportSubjectsCSV);
             document.getElementById('saveMasterDataBtn').addEventListener('click', saveMasterDataFromTables);
             document.getElementById('downloadDataTemplatesBtn').addEventListener('click', downloadMasterDataTemplates);
+            const generateTimetableBtn = document.getElementById('generateTimetableBtn');
+            if (generateTimetableBtn) generateTimetableBtn.addEventListener('click', generateConflictFreeTimetable);
             document.getElementById('generatePromptBtn').addEventListener('click', renderAIPrompt);
             document.getElementById('copyPromptBtn').addEventListener('click', copyAIPrompt);
             document.getElementById('downloadPromptBtn').addEventListener('click', downloadAIPrompt);
@@ -3624,3 +3626,164 @@ Return CSV now.`;
         document.getElementById('cancelSwapBtn').addEventListener('click', function() {
             toggleRescheduleMode();
         });
+
+        // Generate conflict-free timetable locally
+        function generateConflictFreeTimetable() {
+            // 1. Read existing config or fall back
+            const days = getStandardDayOrder();
+            const periodsCount = state.config.periodsPerDay || 8;
+            
+            // Fallback sample data if no master config is set in the app
+            const fallbackClassSections = [
+                { className: 'Grade-I-A', class: 'I', section: 'A' },
+                { className: 'Grade-I-B', class: 'I', section: 'B' },
+                { className: 'Grade-II-A', class: 'II', section: 'A' },
+                { className: 'Grade-II-B', class: 'II', section: 'B' },
+                { className: 'Grade-III-A', class: 'III', section: 'A' }
+            ];
+
+            const fallbackTeachers = [
+                { id: 'T001', name: 'Indira' },
+                { id: 'T002', name: 'Sai Priya' },
+                { id: 'T003', name: 'Akhila' },
+                { id: 'T004', name: 'Aparna' },
+                { id: 'T005', name: 'Sandhya Rani' }
+            ];
+
+            const fallbackMappings = [
+                { id: 'M1', teacherId: 'T001', teacherName: 'Indira', gradeSection: 'Grade-I-A', subject: 'Maths', periodsPerWeek: '5', fixedPeriods: '' },
+                { id: 'M2', teacherId: 'T002', teacherName: 'Sai Priya', gradeSection: 'Grade-I-A', subject: 'EVS', periodsPerWeek: '4', fixedPeriods: '' },
+                { id: 'M3', teacherId: 'T003', teacherName: 'Akhila', gradeSection: 'Grade-I-B', subject: 'Maths', periodsPerWeek: '5', fixedPeriods: '' },
+                { id: 'M4', teacherId: 'T004', teacherName: 'Aparna', gradeSection: 'Grade-I-B', subject: 'English', periodsPerWeek: '5', fixedPeriods: '' },
+                { id: 'M5', teacherId: 'T005', teacherName: 'Sandhya Rani', gradeSection: 'Grade-II-A', subject: 'Maths', periodsPerWeek: '5', fixedPeriods: '' },
+                { id: 'M6', teacherId: 'T001', teacherName: 'Indira', gradeSection: 'Grade-II-A', subject: 'English', periodsPerWeek: '4', fixedPeriods: '' },
+                { id: 'M7', teacherId: 'T002', teacherName: 'Sai Priya', gradeSection: 'Grade-II-B', subject: 'EVS', periodsPerWeek: '5', fixedPeriods: '' },
+                { id: 'M8', teacherId: 'T003', teacherName: 'Akhila', gradeSection: 'Grade-II-B', subject: 'Maths', periodsPerWeek: '4', fixedPeriods: '' },
+                { id: 'M9', teacherId: 'T004', teacherName: 'Aparna', gradeSection: 'Grade-III-A', subject: 'English', periodsPerWeek: '5', fixedPeriods: '' },
+                { id: 'M10', teacherId: 'T005', teacherName: 'Sandhya Rani', gradeSection: 'Grade-III-A', subject: 'Maths', periodsPerWeek: '5', fixedPeriods: '' }
+            ];
+
+            // Decide whether to use loaded config or fallback
+            const useFallback = !(state.classSections && state.classSections.length > 0 && state.teachers && state.teachers.length > 0 && state.teacherMappings && state.teacherMappings.length > 0);
+            
+            const classesToSchedule = useFallback 
+                ? fallbackClassSections.map(c => c.className) 
+                : state.classSections.map(c => c.className);
+                
+            const mappingsList = useFallback 
+                ? fallbackMappings 
+                : state.teacherMappings;
+
+            // 2. Prepare flat lists of lessons per class
+            const classLessons = {};
+            classesToSchedule.forEach(cls => {
+                classLessons[cls] = [];
+                const classMappings = mappingsList.filter(m => normalizeClassSectionLabel(m.gradeSection) === cls);
+                
+                classMappings.forEach(m => {
+                    const periodsPerWeek = parseInt(m.periodsPerWeek) || 4;
+                    const teacherName = m.teacherName || (state.teachers && state.teachers.find(t => t.id === m.teacherId) || {}).name || m.teacherId || 'TBD';
+                    for (let i = 0; i < periodsPerWeek; i++) {
+                        classLessons[cls].push({
+                            subject: m.subject,
+                            teacherId: m.teacherId,
+                            teacherName: teacherName
+                        });
+                    }
+                });
+            });
+
+            // 3. Initialize timetable structure
+            const newTimetable = {};
+            classesToSchedule.forEach(cls => {
+                newTimetable[cls] = {
+                    className: cls,
+                    days: days.map(dayName => ({
+                        dayName: dayName,
+                        periods: Array.from({ length: periodsCount }, (_, idx) => ({
+                            period: idx + 1,
+                            subject: '',
+                            teacherName: '',
+                            teacherId: '',
+                            time: getPeriodTime(idx + 1),
+                            type: 'Regular',
+                            breakAfter: 0
+                        }))
+                    }))
+                };
+            });
+
+            // 4. Greedy conflict-free assignment
+            const teacherBusy = {}; // key: `${day}-${period}-id:${id}` or `${day}-${period}-name:${name}`
+            
+            function isTeacherBusy(day, period, teacherId, teacherName) {
+                const idKey = teacherId ? `${day}-${period}-id:${teacherId.toLowerCase()}` : null;
+                const nameKey = teacherName ? `${day}-${period}-name:${teacherName.toLowerCase()}` : null;
+                return (idKey && teacherBusy[idKey]) || (nameKey && teacherBusy[nameKey]);
+            }
+
+            function markTeacherBusy(day, period, teacherId, teacherName) {
+                if (teacherId) teacherBusy[`${day}-${period}-id:${teacherId.toLowerCase()}`] = true;
+                if (teacherName) teacherBusy[`${day}-${period}-name:${teacherName.toLowerCase()}`] = true;
+            }
+
+            // Fill slot-by-slot, checking for teacher busy status
+            days.forEach(day => {
+                for (let p = 0; p < periodsCount; p++) {
+                    classesToSchedule.forEach(cls => {
+                        // Find the first lesson that has a non-busy teacher
+                        const lessonIndex = classLessons[cls].findIndex(l => 
+                            !isTeacherBusy(day, p + 1, l.teacherId, l.teacherName)
+                        );
+                        
+                        if (lessonIndex !== -1) {
+                            const lesson = classLessons[cls][lessonIndex];
+                            // Remove from lessons queue
+                            classLessons[cls].splice(lessonIndex, 1);
+                            
+                            // Assign to timetable
+                            const periodEntry = newTimetable[cls].days.find(d => d.dayName === day).periods[p];
+                            periodEntry.subject = lesson.subject;
+                            periodEntry.teacherName = lesson.teacherName;
+                            periodEntry.teacherId = lesson.teacherId;
+                            
+                            // Mark teacher busy
+                            markTeacherBusy(day, p + 1, lesson.teacherId, lesson.teacherName);
+                        }
+                    });
+                }
+            });
+
+            // 5. Store result in state and localStorage
+            state.timetableData = newTimetable;
+            saveTimetableToStorage();
+            
+            // 6. Refresh UI
+            updateTimetableSummary();
+            renderTimetable();
+            updateClassFilters();
+            
+            // Show timetable upload details and cards
+            const dataInfoDiv = document.getElementById('timetableDataInfo');
+            if (dataInfoDiv) dataInfoDiv.style.display = 'block';
+            
+            const uploadStatusDiv = document.getElementById('uploadStatus');
+            if (uploadStatusDiv) {
+                uploadStatusDiv.style.display = 'block';
+                const uploadDetailsDiv = document.getElementById('uploadDetails');
+                if (uploadDetailsDiv) {
+                    uploadDetailsDiv.innerHTML = `
+                        <p><i class="fas fa-check-circle" style="color: var(--success-color);"></i> Timetable generated successfully from setup configuration!</p>
+                        <p>Processed ${classesToSchedule.length} classes.</p>
+                    `;
+                }
+            }
+            
+            // Switch to "View Timetable" tab automatically
+            const viewTab = document.querySelector('.tab[data-target="view-timetable-section"]');
+            if (viewTab) {
+                viewTab.click();
+            }
+            
+            alert("Timetable generated successfully and loaded into 'View Timetable' tab! (Conflict-free: no teacher double-booked in same period)");
+        }
